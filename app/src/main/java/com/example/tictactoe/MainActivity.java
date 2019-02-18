@@ -5,13 +5,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,8 +18,35 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (savedInstanceState != null){
+            game = (Game) savedInstanceState.getSerializable("game");
+            for(int i=1; i<4; i++) {
+                for(int j=1; j<4; j++){
+                    TileState tilestate = game.board[i-1][j-1];
+                    String name = "b"+i+j;
+                    int id = getResources().getIdentifier(name, "id", getPackageName());
+                    Button btn = (Button) findViewById(id);
+                    switch(tilestate){
+                        case CIRCLE:
+                            btn.setText("O");
+                            break;
+                        case CROSS:
+                            btn.setText("X");
+                            break;
+                    }
+                }
+            }
 
-        game = new Game();
+        }
+        else {
+            game = new Game();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("game", game);
     }
 
     public int getID(View view) {

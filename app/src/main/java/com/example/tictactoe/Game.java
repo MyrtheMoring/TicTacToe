@@ -1,8 +1,10 @@
 package com.example.tictactoe;
 
-public class Game {
+import java.io.Serializable;
+
+public class Game implements Serializable {
     final private int BOARD_SIZE = 3;
-    private TileState[][] board;
+    public TileState[][] board;
 
     public int moves;
     public Boolean playerOneTurn;
@@ -17,6 +19,7 @@ public class Game {
         playerOneTurn = true;
         gameOver = false;
         moves = 0;
+
     }
 
     public boolean isBetween(int value, int min, int max)
@@ -48,26 +51,26 @@ public class Game {
         return board[row-1][column-1];
     }
 
+    public GameState GameStateHelper() {
+        gameOver = true;
+        if (playerOneTurn){
+            return GameState.PLAYER_ONE;
+        }
+        else {
+            return GameState.PLAYER_TWO;
+        }
+    }
+
     public GameState won(int row, int col, TileState state) {
 
         boolean win=true;
-
-        //check row
         for(int i=0; i<BOARD_SIZE; i++){
             if(board[row-1][i]!=state){
                 win=false;
                 break;
             }
         }
-        if (win){
-            gameOver = true;
-            if (playerOneTurn){
-                return GameState.PLAYER_ONE;
-            }
-            else {
-                return GameState.PLAYER_TWO;
-            }
-        }
+        if (win){ return GameStateHelper(); }
 
         win=true;
         for(int j=0; j<BOARD_SIZE; j++){
@@ -76,15 +79,7 @@ public class Game {
                 break;
             }
         }
-        if (win){
-            gameOver = true;
-            if (playerOneTurn){
-                return GameState.PLAYER_ONE;
-            }
-            else {
-                return GameState.PLAYER_TWO;
-            }
-        }
+        if (win){ return GameStateHelper(); }
 
         win=true;
         for(int k=0; k<BOARD_SIZE; k++){
@@ -93,15 +88,7 @@ public class Game {
                 break;
             }
         }
-        if (win){
-            gameOver = true;
-            if (playerOneTurn){
-                return GameState.PLAYER_ONE;
-            }
-            else {
-                return GameState.PLAYER_TWO;
-            }
-        }
+        if (win){ return GameStateHelper(); }
 
         win=true;
         for(int l=0; l<BOARD_SIZE; l++){
@@ -110,16 +97,7 @@ public class Game {
                 break;
             }
         }
-
-        if (win){
-            gameOver = true;
-            if (playerOneTurn){
-                return GameState.PLAYER_ONE;
-            }
-            else {
-                return GameState.PLAYER_TWO;
-            }
-        }
+        if (win){ return GameStateHelper(); }
 
         return GameState.DRAW;
     }
