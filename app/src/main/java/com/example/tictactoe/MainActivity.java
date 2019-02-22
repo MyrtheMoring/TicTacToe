@@ -1,8 +1,5 @@
 package com.example.tictactoe;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +11,9 @@ public class MainActivity extends AppCompatActivity {
 
     Game game;
 
+    /* The function onCreate checks if the Bundle is already initialized. If so, it restores the
+    saved game positions. If not, it creates a new game.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,12 +43,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /* The function onSaveInstanceState will store the game in a Bundle. */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable("game", game);
     }
 
+    /* The function getID converts the getResources from the view to a compatible id integer. */
     public int getID(View view) {
         String id1 =  view.getResources().getResourceName(view.getId());
         String id2 = id1.replace("b","");
@@ -56,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
         return Integer.parseInt(id3);
     }
 
+    /* The function tileClicked will process tile clicks. If tile on coordinates is empty, set it
+     * according to which player's turn it is.
+     * Extra functionality = it will print the number of moves on the app screen.*/
     public void tileClicked(View view) {
 
         if (!game.gameOver) {
@@ -100,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /* The function wingamestate will check who of the players has won the game. */
     public void wingamestate(GameState gamestate, TextView winnertext){
         TextView nmoves = (TextView) findViewById(R.id.nmoves);
         nmoves.setText("0");
@@ -115,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /* The function resetClicked will reset the board after when clicking the button reset. */
     public void resetClicked(View view) {
         TextView winnertext = (TextView) findViewById(R.id.player);
         winnertext.setText("");

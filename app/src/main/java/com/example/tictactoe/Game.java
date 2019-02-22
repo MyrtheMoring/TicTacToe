@@ -10,6 +10,7 @@ public class Game implements Serializable {
     public Boolean playerOneTurn;
     public Boolean gameOver;
 
+    /* The constructor for the Game class, that initializes the board, player's turn and game mode.*/
     public Game() {
         board = new TileState[BOARD_SIZE][BOARD_SIZE];
         for(int i=0; i<BOARD_SIZE; i++)
@@ -22,11 +23,14 @@ public class Game implements Serializable {
 
     }
 
+    /* Save (but not really needed check) if the click is on the board. */
     public boolean isBetween(int value, int min, int max)
     {
         return((value > min) && (value < max));
     }
 
+    /* This function will check if the given index is blank. If not so, it will check if the tile is
+    occupied and returns invalid is so. Otherwise, circle or cross depending on the player's turn.*/
     public TileState choose(int row, int column) {
 
         if (isBetween(row, 4, 4) && isBetween(column, 4, 4)) {
@@ -51,6 +55,7 @@ public class Game implements Serializable {
         return board[row-1][column-1];
     }
 
+    /* The GameStateHelper function to shorten the code. */
     public GameState GameStateHelper() {
         gameOver = true;
         if (playerOneTurn){
@@ -61,6 +66,8 @@ public class Game implements Serializable {
         }
     }
 
+    /* The won function to check if the game is over. If so, it will return the corresponding game
+     * state and otherwise DRAW. */
     public GameState won(int row, int col, TileState state) {
 
         boolean win=true;
